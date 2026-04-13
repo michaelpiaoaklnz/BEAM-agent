@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{28F5EA4F-0E81-40D5-A493-2DD343D1F568}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BeamApi", "src\BeamApi\BeamApi.csproj", "{98FE842A-103E-4F3B-A574-E2CE6B91CF48}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{4C06069A-CA83-4922-BC1F-363CC05DFA1C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BeamApi.Tests", "tests\BeamApi.Tests\BeamApi.Tests.csproj", "{F8F2C78D-3B41-4029-B027-47950276EBB8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{98FE842A-103E-4F3B-A574-E2CE6B91CF48}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{98FE842A-103E-4F3B-A574-E2CE6B91CF48}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{98FE842A-103E-4F3B-A574-E2CE6B91CF48}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{98FE842A-103E-4F3B-A574-E2CE6B91CF48}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F8F2C78D-3B41-4029-B027-47950276EBB8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F8F2C78D-3B41-4029-B027-47950276EBB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F8F2C78D-3B41-4029-B027-47950276EBB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F8F2C78D-3B41-4029-B027-47950276EBB8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{98FE842A-103E-4F3B-A574-E2CE6B91CF48} = {28F5EA4F-0E81-40D5-A493-2DD343D1F568}
+		{F8F2C78D-3B41-4029-B027-47950276EBB8} = {4C06069A-CA83-4922-BC1F-363CC05DFA1C}
+	EndGlobalSection
+EndGlobal
