@@ -436,3 +436,4 @@
 /Users/mac/Desktop/BEAM-agent/tests/BeamApi.Tests/obj/Debug/net8.0/BeamApi.Tests.genruntimeconfig.cache
 /Users/mac/Desktop/BEAM-agent/tests/BeamApi.Tests/obj/Debug/net8.0/ref/BeamApi.Tests.dll
 /Users/mac/Desktop/BEAM-agent/tests/BeamApi.Tests/bin/Debug/net8.0/FluentAssertions.dll
+/Users/mac/Desktop/BEAM-agent/tests/BeamApi.Tests/obj/Debug/net8.0/BeamApi.Tests.sourcelink.json

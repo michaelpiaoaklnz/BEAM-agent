@@ -30,3 +30,4 @@
 /Users/mac/Desktop/BEAM-agent/src/BeamApi/obj/Debug/net8.0/BeamApi.pdb
 /Users/mac/Desktop/BEAM-agent/src/BeamApi/obj/Debug/net8.0/BeamApi.genruntimeconfig.cache
 /Users/mac/Desktop/BEAM-agent/src/BeamApi/obj/Debug/net8.0/ref/BeamApi.dll
+/Users/mac/Desktop/BEAM-agent/src/BeamApi/obj/Debug/net8.0/BeamApi.sourcelink.json
