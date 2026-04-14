@@ -15,6 +15,8 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddSingleton<AccountsService>();
 
+builder.Services.AddScoped<SuppliersService>();
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
