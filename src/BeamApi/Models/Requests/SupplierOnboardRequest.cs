@@ -17,6 +17,7 @@ public class SupplierOnboardRequest
     public bool IsDomestic { get; set; }
 
     // Original requirement: optional for domestic suppliers.
+    [RegularExpression(@"^\d{9}$", ErrorMessage = "Tax number must consist of exactly 9 digits.")]
     public string? TaxNumber { get; set; }
 
     [Required]

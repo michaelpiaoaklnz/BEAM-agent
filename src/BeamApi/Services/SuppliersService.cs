@@ -7,9 +7,16 @@ public class SuppliersService
 {
     public ApiResponse<string> Onboard(SupplierOnboardRequest request)
     {
-        // Original T02 baseline behavior:
-        // taxNumber is optional even for domestic suppliers.
-        // No strict format validation is enforced here yet.
+        if (request.IsDomestic && string.IsNullOrEmpty(request.TaxNumber))
+        {
+            return ApiResponse<string>.Failure(new List<string> { "Tax number is required for domestic suppliers." }, "Validation failed");
+        }
+
+        if (request.IsDomestic && !string.IsNullOrEmpty(request.TaxNumber) && !Regex.IsMatch(request.TaxNumber, @"^\d{9}$"))
+        {
+            return ApiResponse<string>.Failure(new List<string> { "Tax number must consist of exactly 9 digits." }, "Validation failed");
+        }
+
         var supplierId = $"mock-supplier-{Guid.NewGuid():N}";
 
         return ApiResponse<string>.Success(

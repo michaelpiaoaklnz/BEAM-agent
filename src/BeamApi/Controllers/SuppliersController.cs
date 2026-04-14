@@ -2,6 +2,9 @@ using BeamApi.Models.Requests;
 using BeamApi.Models.Responses;
 using BeamApi.Services;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
+using System.Text.RegularExpressions;
+using System.Collections.Generic;
 
 namespace BeamApi.Controllers;
 
@@ -27,7 +30,7 @@ public class SuppliersController : ControllerBase
                 .Select(e => string.IsNullOrWhiteSpace(e.ErrorMessage) ? "Invalid input." : e.ErrorMessage)
                 .ToList();
 
-            return Ok(ApiResponse<string>.Failure(errors, "Validation failed"));
+            return UnprocessableEntity(ApiResponse<string>.Failure(errors, "Validation failed"));
         }
 
         var result = _suppliersService.Onboard(request);
