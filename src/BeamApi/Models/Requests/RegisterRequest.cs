@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Text.RegularExpressions;
 
 namespace BeamApi.Models.Requests;
 
@@ -18,7 +19,8 @@ public class RegisterRequest
     public string UserName { get; set; } = string.Empty;
 
     [Required]
-    [MinLength(8)]
+    [MinLength(12)]
+    [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{12,}$", ErrorMessage = "Password must be at least 12 characters long and contain at least one uppercase letter, one lowercase letter, one digit, and one special character.")]
     public string Password { get; set; } = string.Empty;
 
     [Required]

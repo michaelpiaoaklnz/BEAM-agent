@@ -27,7 +27,7 @@ public class AccountsController : ControllerBase
                 .Select(e => string.IsNullOrWhiteSpace(e.ErrorMessage) ? "Invalid input." : e.ErrorMessage)
                 .ToList();
 
-            return Ok(ApiResponse<string>.Failure(errors, "Validation failed"));
+            return UnprocessableEntity(ApiResponse<string>.Failure(errors, "Validation failed"));
         }
 
         var result = _accountsService.Register(request);
