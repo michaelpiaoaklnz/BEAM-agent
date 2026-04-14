@@ -12,7 +12,38 @@ public class OrderSubmitRequest
 
     public bool ContainsFragileItems { get; set; }
 
-    // Original T03 behavior:
-    // deliveryInstructions is optional and may be omitted.
+    [ConditionalRequired(nameof(ContainsFragileItems), true)]
     public string? DeliveryInstructions { get; set; }
+}
+
+public class ConditionalRequiredAttribute : ValidationAttribute
+{
+    private readonly string _dependentProperty;
+    private readonly object _expectedValue;
+
+    public ConditionalRequiredAttribute(string dependentProperty, object expectedValue)
+    {
+        _dependentProperty = dependentProperty;
+        _expectedValue = expectedValue;
+    }
+
+    protected override ValidationResult IsValid(object value, ValidationContext validationContext)
+    {
+        var property = validationContext.ObjectType.GetProperty(_dependentProperty);
+        if (property == null)
+        {
+            throw new ArgumentException($"Property {_dependentProperty} not found.");
+        }
+
+        var dependentValue = property.GetValue(validationContext.ObjectInstance);
+        if (dependentValue != null && dependentValue.Equals(_expectedValue))
+        {
+            if (value == null)
+            {
+                return new ValidationResult($"{validationContext.DisplayName} is required.");
+            }
+        }
+
+        return ValidationResult.Success;
+    }
 }
