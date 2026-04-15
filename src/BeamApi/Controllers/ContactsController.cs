@@ -27,9 +27,9 @@ public class ContactsController : ControllerBase
                 .Select(e => string.IsNullOrWhiteSpace(e.ErrorMessage) ? "Invalid input." : e.ErrorMessage)
                 .ToList();
 
-            // Original T07 baseline behavior:
-            // validation failure returns HTTP 200 with failure body.
-            return Ok(ApiResponse<object>.Failure(errors, "Validation failed"));
+            // Updated T07 behavior:
+            // validation failure returns HTTP 422 with failure body.
+            return UnprocessableEntity(ApiResponse<object>.Failure(errors, "Validation failed"));
         }
 
         var result = _contactService.Update(request);
