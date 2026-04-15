@@ -17,6 +17,8 @@ builder.Services.AddSingleton<AccountsService>();
 builder.Services.AddScoped<SuppliersService>();
 builder.Services.AddScoped<OrdersService>();
 builder.Services.AddScoped<ExpensesService>();
+builder.Services.AddScoped<OrderWorkflowService>();
+
 
 var app = builder.Build();
 
