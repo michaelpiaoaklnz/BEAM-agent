@@ -1,5 +1,6 @@
 using BeamApi.Models.Requests;
 using BeamApi.Models.Responses;
+using System.Collections.Generic;
 
 namespace BeamApi.Services;
 
@@ -7,9 +8,16 @@ public class RefundService
 {
     public ApiResponse<object> Approve(RefundApprovalRequest request)
     {
-        // Original T06 baseline behavior:
-        // only Admin may approve refunds.
-        var isAuthorized = request.UserRole == "Admin";
+        bool isAuthorized = false;
+
+        if (request.UserRole == "Admin")
+        {
+            isAuthorized = true;
+        }
+        else if (request.UserRole == "TeamLead" && request.Amount <= 1000)
+        {
+            isAuthorized = true;
+        }
 
         if (!isAuthorized)
         {
