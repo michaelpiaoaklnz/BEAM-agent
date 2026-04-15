@@ -16,6 +16,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<AccountsService>();
 builder.Services.AddScoped<SuppliersService>();
 builder.Services.AddScoped<OrdersService>();
+builder.Services.AddScoped<ExpensesService>();
 
 var app = builder.Build();
 
