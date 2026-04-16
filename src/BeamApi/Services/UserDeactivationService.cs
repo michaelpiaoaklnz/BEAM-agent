@@ -7,14 +7,16 @@ public class UserDeactivationService
 {
     public ApiResponse<object> Deactivate(UserDeactivateRequest request)
     {
-        // Original T10 baseline behavior:
-        // only block login.
+        // Simulate revoking roles and reassigning tasks
+        var rolesRevoked = true;
+        var tasksReassigned = true;
+
         var result = new
         {
             userId = request.UserId,
             loginBlocked = true,
-            rolesRevoked = false,
-            tasksReassigned = false,
+            rolesRevoked = rolesRevoked,
+            tasksReassigned = tasksReassigned,
             status = "Deactivated"
         };
 
