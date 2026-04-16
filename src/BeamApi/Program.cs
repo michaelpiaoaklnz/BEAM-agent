@@ -21,6 +21,7 @@ builder.Services.AddScoped<OrderWorkflowService>();
 builder.Services.AddScoped<RefundService>();
 builder.Services.AddScoped<ContactService>();
 builder.Services.AddScoped<OrderCancellationService>();
+builder.Services.AddScoped<CaseService>();
 
 var app = builder.Build();
 
