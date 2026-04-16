@@ -1,15 +1,21 @@
 using BeamApi.Models.Requests;
 using BeamApi.Models.Responses;
 using System;
+using System.Collections.Concurrent;
 
 namespace BeamApi.Services;
 
 public class CaseService
 {
+    private static readonly ConcurrentDictionary<string, ApiResponse<object>> _idempotencyCache = new();
+
     public ApiResponse<object> Create(CaseCreateRequest request)
     {
-        // Original T09 baseline behavior:
-        // duplicate requests may create multiple distinct records.
+        if (_idempotencyCache.TryGetValue(request.IdempotencyKey, out var cachedResponse))
+        {
+            return cachedResponse;
+        }
+
         var result = new
         {
             caseId = $"case-{Guid.NewGuid():N}",
@@ -20,6 +26,9 @@ public class CaseService
             idempotencyKey = request.IdempotencyKey
         };
 
-        return ApiResponse<object>.Success(result, "Case created successfully");
+        var response = ApiResponse<object>.Success(result, "Case created successfully");
+        _idempotencyCache.TryAdd(request.IdempotencyKey, response);
+
+        return response;
     }
 }
