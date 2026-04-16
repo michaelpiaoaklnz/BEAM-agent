@@ -20,6 +20,7 @@ builder.Services.AddScoped<ExpensesService>();
 builder.Services.AddScoped<OrderWorkflowService>();
 builder.Services.AddScoped<RefundService>();
 builder.Services.AddScoped<ContactService>();
+builder.Services.AddScoped<OrderCancellationService>();
 
 var app = builder.Build();
 
