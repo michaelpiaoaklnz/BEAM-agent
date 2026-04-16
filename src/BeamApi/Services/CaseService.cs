@@ -1,5 +1,6 @@
 using BeamApi.Models.Requests;
 using BeamApi.Models.Responses;
+using System;
 
 namespace BeamApi.Services;
 
