@@ -24,6 +24,7 @@ builder.Services.AddScoped<OrderCancellationService>();
 builder.Services.AddScoped<CaseService>();
 builder.Services.AddScoped<UserDeactivationService>();
 builder.Services.AddScoped<TicketClosureService>();
+builder.Services.AddScoped<AuditService>();
 
 var app = builder.Build();
 
