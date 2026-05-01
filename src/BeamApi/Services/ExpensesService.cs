@@ -7,9 +7,14 @@ public class ExpensesService
 {
     public ApiResponse<object> Submit(ExpenseClaimRequest request)
     {
-        // Original T04 baseline behavior:
-        // only amount determines auto-approval.
-        var autoApproved = request.Amount < 500m;
+        var restrictedCategories = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+        {
+            "Travel", "Entertainment"
+        };
+
+        var autoApproved = request.Amount < 500m
+            && !request.HasRecentPolicyViolations
+            && !restrictedCategories.Contains(request.Category);
 
         var result = new
         {
