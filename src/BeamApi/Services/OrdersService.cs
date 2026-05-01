@@ -7,7 +7,13 @@ public class OrdersService
 {
     public ApiResponse<string> Submit(OrderSubmitRequest request)
     {
-        // Ensure deliveryInstructions is null if not provided
+        if (request.ContainsFragileItems && string.IsNullOrWhiteSpace(request.DeliveryInstructions))
+        {
+            return ApiResponse<string>.Failure(
+                new List<string> { "deliveryInstructions is required for orders containing fragile items." },
+                "Validation failed");
+        }
+
         if (string.IsNullOrEmpty(request.DeliveryInstructions))
         {
             request.DeliveryInstructions = null;

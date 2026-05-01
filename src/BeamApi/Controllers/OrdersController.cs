@@ -31,6 +31,10 @@ public class OrdersController : ControllerBase
         }
 
         var result = _ordersService.Submit(request);
+        if (!result.Succeeded)
+        {
+            return UnprocessableEntity(result);
+        }
         return Ok(result);
     }
 }
