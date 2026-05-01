@@ -27,10 +27,14 @@ public class SuppliersController : ControllerBase
                 .Select(e => string.IsNullOrWhiteSpace(e.ErrorMessage) ? "Invalid input." : e.ErrorMessage)
                 .ToList();
 
-            return Ok(ApiResponse<string>.Failure(errors, "Validation failed"));
+            return UnprocessableEntity(ApiResponse<string>.Failure(errors, "Validation failed"));
         }
 
         var result = _suppliersService.Onboard(request);
+
+        if (!result.Succeeded)
+            return UnprocessableEntity(result);
+
         return Ok(result);
     }
 }

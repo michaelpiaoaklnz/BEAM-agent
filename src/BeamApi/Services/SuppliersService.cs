@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using BeamApi.Models.Requests;
 using BeamApi.Models.Responses;
 
@@ -5,15 +6,24 @@ namespace BeamApi.Services;
 
 public class SuppliersService
 {
+    private static readonly Regex TaxNumberFormat = new(@"^\d{9}$", RegexOptions.Compiled);
+
     public ApiResponse<string> Onboard(SupplierOnboardRequest request)
     {
-        // Original T02 baseline behavior:
-        // taxNumber is optional even for domestic suppliers.
-        // No strict format validation is enforced here yet.
-        var supplierId = $"mock-supplier-{Guid.NewGuid():N}";
+        if (request.IsDomestic)
+        {
+            if (string.IsNullOrEmpty(request.TaxNumber))
+                return ApiResponse<string>.Failure(
+                    new List<string> { "taxNumber is required for domestic suppliers" },
+                    "Validation failed");
 
-        return ApiResponse<string>.Success(
-            supplierId,
-            "Supplier onboarded successfully");
+            if (!TaxNumberFormat.IsMatch(request.TaxNumber))
+                return ApiResponse<string>.Failure(
+                    new List<string> { "taxNumber must be exactly 9 digits" },
+                    "Validation failed");
+        }
+
+        var supplierId = $"mock-supplier-{Guid.NewGuid():N}";
+        return ApiResponse<string>.Success(supplierId, "Supplier onboarded successfully");
     }
 }
