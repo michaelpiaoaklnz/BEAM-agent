@@ -9,6 +9,8 @@ public class OrderWorkflowService
     [
         ("Draft", "Submitted"),
         ("Submitted", "Approved"),
+        ("Submitted", "On Hold"),
+        ("On Hold", "Approved"),
         ("Approved", "Issued")
     ];
 
@@ -20,6 +22,13 @@ public class OrderWorkflowService
         {
             return ApiResponse<object>.Failure(
                 new List<string> { $"Invalid transition from '{request.CurrentStatus}' to '{request.TargetStatus}'." },
+                "Transition failed");
+        }
+
+        if (request.CurrentStatus == "Submitted" && request.TargetStatus == "On Hold" && !request.RequiresReview)
+        {
+            return ApiResponse<object>.Failure(
+                new List<string> { "Invalid transition from 'Submitted' to 'On Hold': requiresReview must be true." },
                 "Transition failed");
         }
 
