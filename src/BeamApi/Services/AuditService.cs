@@ -15,7 +15,11 @@ public class AuditService
             audit = new
             {
                 userId = request.UserId,
-                timestamp = DateTime.UtcNow
+                timestamp = DateTime.UtcNow,
+                actionName = request.ActionName,
+                entityType = request.EntityType,
+                entityId = request.EntityId,
+                outcome = "Success"
             }
         };
 
