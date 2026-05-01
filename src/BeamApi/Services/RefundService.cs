@@ -15,7 +15,8 @@ public class RefundService
     public ApiResponse<object> Approve(RefundApprovalRequest request)
     {
         // Check if the user has the required role to approve the refund
-        var isAuthorized = request.UserRole == "Admin";
+        var isAuthorized = request.UserRole == "Admin" ||
+                           (request.UserRole == "TeamLead" && request.Amount <= 1000);
 
         if (!isAuthorized)
         {
