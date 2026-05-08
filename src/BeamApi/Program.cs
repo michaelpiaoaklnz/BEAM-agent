@@ -28,6 +28,7 @@ builder.Services.AddScoped<AuditService>();
 builder.Services.AddScoped<SearchService>();
 builder.Services.AddScoped<DiscountsService>();
 builder.Services.AddScoped<LeaveService>();
+builder.Services.AddScoped<InvoicesService>();
 
 var app = builder.Build();
 
