@@ -7,18 +7,31 @@ public class SearchService
 {
     public ApiResponse<List<string>> Search(SearchRequest request)
     {
-        // Original T17 behavior:
-        // empty keyword returns all records.
+        // Handle empty, null, or missing keyword by returning all records
+        if (string.IsNullOrWhiteSpace(request?.Keyword))
+        {
+            var results = new List<string>
+            {
+                "record-1",
+                "record-2",
+                "record-3"
+            };
 
-        var results = new List<string>
+            return ApiResponse<List<string>>.Success(
+                results,
+                "Search completed");
+        }
+
+        // Handle non-empty keyword
+        var filteredResults = new List<string>
         {
             "record-1",
             "record-2",
             "record-3"
-        };
+        }.Where(r => r.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)).ToList();
 
         return ApiResponse<List<string>>.Success(
-            results,
+            filteredResults,
             "Search completed");
     }
 }

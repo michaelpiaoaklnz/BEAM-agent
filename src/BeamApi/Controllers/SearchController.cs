@@ -18,21 +18,11 @@ public class SearchController : ControllerBase
 
     [HttpPost]
     public ActionResult<ApiResponse<List<string>>> Search(
-        [FromBody] SearchRequest request)
+        [FromBody] SearchRequest? request)
     {
-        if (!ModelState.IsValid)
+        if (request == null)
         {
-            var errors = ModelState
-                .Values
-                .SelectMany(v => v.Errors)
-                .Select(e => string.IsNullOrWhiteSpace(e.ErrorMessage)
-                    ? "Invalid input."
-                    : e.ErrorMessage)
-                .ToList();
-
-            return Ok(ApiResponse<List<string>>.Failure(
-                errors,
-                "Validation failed"));
+            request = new SearchRequest();
         }
 
         var result = _searchService.Search(request);
