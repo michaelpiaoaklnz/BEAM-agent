@@ -29,7 +29,9 @@ public class RegisterRequest
 
     public bool IsFieldStaff { get; set; }
 
+    [RequiredIf("IsFieldStaff", true, ErrorMessage = "Emergency contact phone is required for field staff.")]
     public string? EmergencyContactPhone { get; set; }
 
+    [RequiredIf("IsFieldStaff", true, ErrorMessage = "Emergency contact relationship is required for field staff.")]
     public string? EmergencyContactRelationship { get; set; }
 }
