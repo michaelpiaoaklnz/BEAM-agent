@@ -42,7 +42,7 @@ builder.Services.AddScoped<EmployeeTerminationService>();
 builder.Services.AddScoped<ProductDeletionService>();
 builder.Services.AddScoped<TicketAutoCloseService>();
 builder.Services.AddScoped<PurchaseApprovalService>();
-
+builder.Services.AddScoped<ProfileAuditService>();
 
 
 var app = builder.Build();
