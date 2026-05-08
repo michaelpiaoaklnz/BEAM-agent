@@ -7,10 +7,14 @@ public class LeaveService
 {
     public ApiResponse<object> Submit(LeaveRequest request)
     {
-        // Original T20 behavior:
-        // Leave requests below 2 days are auto-approved.
+        // New T20 perturbed behavior:
+        // Leave requests below 2 days are auto-approved if:
+        // - Remaining leave balance is greater than or equal to daysRequested
+        // - At least 2 team members are available
         // Leave requests equal to or above 2 days require manual review.
-        bool autoApproved = request.DaysRequested < 2m;
+        bool autoApproved = request.DaysRequested < 2m &&
+                           request.RemainingLeaveBalance >= request.DaysRequested &&
+                           request.TeamMembersAvailable >= 2;
 
         return ApiResponse<object>.Success(
             new
