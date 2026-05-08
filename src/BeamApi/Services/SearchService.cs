@@ -1,5 +1,7 @@
 using BeamApi.Models.Requests;
 using BeamApi.Models.Responses;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace BeamApi.Services;
 
@@ -7,26 +9,21 @@ public class SearchService
 {
     public ApiResponse<List<string>> Search(SearchRequest request)
     {
-        // Original T17 behavior:
-        // empty keyword returns all records.
-
-        // Original T18 behavior:
-        // missing pagination parameters use a fixed default page size.
-        var page = request.Page ?? 1;
-        var pageSize = request.PageSize ?? 20;
-
+        // Simulate fetching all records
         var allRecords = Enumerable
             .Range(1, 100)
             .Select(i => $"record-{i}")
             .ToList();
 
+        // Apply pagination
         var results = allRecords
-            .Skip((page - 1) * pageSize)
-            .Take(pageSize)
+            .Skip((request.Page.Value - 1) * request.PageSize.Value)
+            .Take(request.PageSize.Value)
             .ToList();
 
+        // Return the paginated results
         return ApiResponse<List<string>>.Success(
             results,
-            $"Search completed with page={page}, pageSize={pageSize}");
+            $"Search completed with page={request.Page}, pageSize={request.PageSize}");
     }
 }

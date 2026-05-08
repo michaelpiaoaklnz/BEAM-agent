@@ -35,8 +35,46 @@ public class SearchController : ControllerBase
                 "Validation failed"));
         }
 
+        // Ensure page and pageSize are positive integers
+        if (request.Page.HasValue && request.Page <= 0)
+        {
+            return BadRequest(ApiResponse<List<string>>.Failure(
+                new List<string> { "Page must be a positive integer." },
+                "Invalid input"));
+        }
+
+        if (request.PageSize.HasValue && request.PageSize <= 0)
+        {
+            return BadRequest(ApiResponse<List<string>>.Failure(
+                new List<string> { "PageSize must be a positive integer." },
+                "Invalid input"));
+        }
+
+        // Set default values for pagination parameters
+        var page = request.Page ?? 1;
+        var pageSize = request.PageSize ?? GetDefaultPageSize(request.UserRole);
+
+        // Update the request object with default values
+        request.Page = page;
+        request.PageSize = pageSize;
+
         var result = _searchService.Search(request);
 
         return Ok(result);
+    }
+
+    private int GetDefaultPageSize(string? userRole)
+    {
+        switch (userRole?.ToLower())
+        {
+            case "admin":
+                return 100;
+            case "manager":
+                return 50;
+            case "user":
+                return 20;
+            default:
+                return 20;
+        }
     }
 }
