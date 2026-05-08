@@ -31,6 +31,7 @@ builder.Services.AddScoped<LeaveService>();
 builder.Services.AddScoped<InvoicesService>();
 builder.Services.AddScoped<TicketStateService>();
 builder.Services.AddScoped<EmployeeProfilesService>();
+builder.Services.AddScoped<ProjectsService>();
 
 
 var app = builder.Build();
