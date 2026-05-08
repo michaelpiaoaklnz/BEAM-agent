@@ -34,7 +34,7 @@ builder.Services.AddScoped<EmployeeProfilesService>();
 builder.Services.AddScoped<ProjectsService>();
 builder.Services.AddScoped<ResourcesService>();
 builder.Services.AddScoped<DocumentsService>();
-
+builder.Services.AddScoped<ProductPricesService>();
 
 
 
