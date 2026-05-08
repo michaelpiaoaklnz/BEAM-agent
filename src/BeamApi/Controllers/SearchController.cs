@@ -25,12 +25,10 @@ public class SearchController : ControllerBase
             var errors = ModelState
                 .Values
                 .SelectMany(v => v.Errors)
-                .Select(e => string.IsNullOrWhiteSpace(e.ErrorMessage)
-                    ? "Invalid input."
-                    : e.ErrorMessage)
+                .Select(e => e.ErrorMessage)
                 .ToList();
 
-            return Ok(ApiResponse<List<string>>.Failure(
+            return BadRequest(ApiResponse<List<string>>.Failure(
                 errors,
                 "Validation failed"));
         }

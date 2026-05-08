@@ -7,6 +7,13 @@ public class SearchService
 {
     public ApiResponse<List<string>> Search(SearchRequest request)
     {
+        if (string.IsNullOrWhiteSpace(request.Keyword))
+        {
+            return ApiResponse<List<string>>.Failure(
+                new List<string> { "Keyword is required" },
+                "Validation failed");
+        }
+
         // Original T17 behavior:
         // empty keyword returns all records.
 
