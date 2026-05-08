@@ -8,7 +8,7 @@ public class AccountsService
     public ApiResponse<string> Register(RegisterRequest request)
     {
         return ApiResponse<string>.Success(
-            "mock-user-id",
-            "User Registered (mock for experiment)");
+            $"mock-user-id-for-{request.Email}",
+            "User registered successfully");
     }
 }
