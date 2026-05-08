@@ -24,4 +24,12 @@ public class RegisterRequest
     [Required]
     [Compare(nameof(Password))]
     public string ConfirmPassword { get; set; } = string.Empty;
+
+    // List of verified company domains
+    public static readonly HashSet<string> VerifiedCompanyDomains = new HashSet<string>
+    {
+        "company.com",
+        "beam.com",
+        "enterprise.co.nz"
+    };
 }
