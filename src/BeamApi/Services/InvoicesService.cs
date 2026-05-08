@@ -7,10 +7,10 @@ public class InvoicesService
 {
     public ApiResponse<object> ApplyPayment(InvoicePaymentRequest request)
     {
-        // Original T21 behavior:
-        // invoice status moves directly from Pending to Paid
-        // after a payment is applied.
-        var status = "Paid";
+        // Calculate the status based on payment amount and invoice total
+        var status = request.PaymentAmount < request.InvoiceTotal
+            ? "Partially Paid"
+            : "Paid";
 
         return ApiResponse<object>.Success(
             new
