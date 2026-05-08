@@ -97,4 +97,46 @@ public class DiscountsT19PerturbedTests : IClassFixture<TestWebApplicationFactor
 
         body.Should().Contain("\"discountApplied\":false");
     }
+
+    [Fact]
+    public async Task StandardCustomer_Above1200_ShouldReceiveDiscount()
+    {
+        var payload = new
+        {
+            orderTotal = 1300,
+            customerTier = "standard",
+            previousOrders = 0,
+            productCategory = "general"
+        };
+
+        var response =
+            await _client.PostAsJsonAsync(
+                "/api/discounts/evaluate",
+                payload);
+
+        var body = await response.Content.ReadAsStringAsync();
+
+        body.Should().Contain("\"discountApplied\":true");
+    }
+
+    [Fact]
+    public async Task StandardCustomer_Below1200_ShouldFail()
+    {
+        var payload = new
+        {
+            orderTotal = 1100,
+            customerTier = "standard",
+            previousOrders = 0,
+            productCategory = "general"
+        };
+
+        var response =
+            await _client.PostAsJsonAsync(
+                "/api/discounts/evaluate",
+                payload);
+
+        var body = await response.Content.ReadAsStringAsync();
+
+        body.Should().Contain("\"discountApplied\":false");
+    }
 }
