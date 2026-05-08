@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using BeamApi.Attributes;
 
 namespace BeamApi.Models.Requests;
 
@@ -7,6 +8,7 @@ public class RegisterRequest
     [Required]
     public string FirstName { get; set; } = string.Empty;
 
+    [NoNumericCharacters]
     public string? MiddleName { get; set; }
 
     [Required]
