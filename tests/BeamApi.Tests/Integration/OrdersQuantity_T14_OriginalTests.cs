@@ -1,6 +1,8 @@
 using System.Net;
 using System.Net.Http.Json;
 using FluentAssertions;
+using System.Text.Json.Serialization;
+using System.Text.Json;
 
 namespace BeamApi.Tests.Integration;
 
@@ -20,15 +22,15 @@ public class OrdersQuantityT14OriginalTests : IClassFixture<TestWebApplicationFa
     [InlineData("bulk", 1)]
     public async Task Submit_WithAnyPositiveQuantity_ReturnsSuccess(string category, int quantity)
     {
-        var payload = new
+        var payload = new OrderSubmitRequest
         {
-            customerName = "Test Customer",
-            shippingAddress = "1 Test Street",
-            containsFragileItems = false,
-            productId = $"product-{Guid.NewGuid():N}",
-            category,
-            quantity,
-            deliveryInstructions = (string?)null
+            CustomerName = "Test Customer",
+            ShippingAddress = "1 Test Street",
+            ContainsFragileItems = false,
+            ProductId = $"product-{Guid.NewGuid():N}",
+            Category = category,
+            Quantity = quantity,
+            DeliveryInstructions = null
         };
 
         var response = await _client.PostAsJsonAsync("/api/orders/submit", payload);
@@ -47,15 +49,15 @@ public class OrdersQuantityT14OriginalTests : IClassFixture<TestWebApplicationFa
     [InlineData(-100)]
     public async Task Submit_WithZeroOrNegativeQuantity_ReturnsValidationFailure(int quantity)
     {
-        var payload = new
+        var payload = new OrderSubmitRequest
         {
-            customerName = "Test Customer",
-            shippingAddress = "1 Test Street",
-            containsFragileItems = false,
-            productId = $"product-{Guid.NewGuid():N}",
-            category = "electronics",
-            quantity,
-            deliveryInstructions = (string?)null
+            CustomerName = "Test Customer",
+            ShippingAddress = "1 Test Street",
+            ContainsFragileItems = false,
+            ProductId = $"product-{Guid.NewGuid():N}",
+            Category = "electronics",
+            Quantity = quantity,
+            DeliveryInstructions = null
         };
 
         var response = await _client.PostAsJsonAsync("/api/orders/submit", payload);
@@ -65,5 +67,6 @@ public class OrdersQuantityT14OriginalTests : IClassFixture<TestWebApplicationFa
         var body = await response.Content.ReadAsStringAsync();
         body.Should().Contain("Validation failed");
         body.Should().Contain("false");
+        body.Should().Contain("Quantity must be greater than zero.");
     }
 }
