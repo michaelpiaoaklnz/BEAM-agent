@@ -26,6 +26,7 @@ builder.Services.AddScoped<UserDeactivationService>();
 builder.Services.AddScoped<TicketClosureService>();
 builder.Services.AddScoped<AuditService>();
 builder.Services.AddScoped<SearchService>();
+builder.Services.AddScoped<DiscountsService>();
 
 var app = builder.Build();
 
