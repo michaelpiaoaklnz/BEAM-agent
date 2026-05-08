@@ -27,6 +27,7 @@ builder.Services.AddScoped<TicketClosureService>();
 builder.Services.AddScoped<AuditService>();
 builder.Services.AddScoped<SearchService>();
 builder.Services.AddScoped<DiscountsService>();
+builder.Services.AddScoped<LeaveService>();
 
 var app = builder.Build();
 
