@@ -7,6 +7,7 @@ public class AccountsService
 {
     public ApiResponse<string> Register(RegisterRequest request)
     {
+        // Simulate successful registration
         return ApiResponse<string>.Success(
             $"mock-user-id-for-{request.Email}",
             "User registered successfully");
