@@ -19,13 +19,18 @@ public class OrdersController : ControllerBase
     [HttpPost("submit")]
     public ActionResult<ApiResponse<string>> Submit([FromBody] OrderSubmitRequest request)
     {
-        if (!ModelState.IsValid)
+        if (!ModelState.IsValid || !request.IsValidQuantity())
         {
             var errors = ModelState
                 .Values
                 .SelectMany(v => v.Errors)
                 .Select(e => string.IsNullOrWhiteSpace(e.ErrorMessage) ? "Invalid input." : e.ErrorMessage)
                 .ToList();
+
+            if (!request.IsValidQuantity())
+            {
+                errors.Add("Quantity is out of the allowed range for the specified category.");
+            }
 
             return Ok(ApiResponse<string>.Failure(errors, "Validation failed"));
         }

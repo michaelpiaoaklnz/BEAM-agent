@@ -25,4 +25,19 @@ public class OrderSubmitRequest
     public int Quantity { get; set; }
 
     public string? DeliveryInstructions { get; set; }
+
+    public bool IsValidQuantity()
+    {
+        switch (Category.ToLower())
+        {
+            case "electronics":
+                return Quantity >= 1 && Quantity <= 5;
+            case "office":
+                return Quantity >= 1 && Quantity <= 100;
+            case "bulk":
+                return Quantity >= 10 && Quantity <= 1000;
+            default:
+                return false;
+        }
+    }
 }
