@@ -38,6 +38,7 @@ builder.Services.AddScoped<ProductPricesService>();
 builder.Services.AddScoped<CustomersService>();
 builder.Services.AddScoped<PasswordResetService>();
 builder.Services.AddScoped<PaymentCallbacksService>();
+builder.Services.AddScoped<EmployeeTerminationService>();
 
 
 var app = builder.Build();
