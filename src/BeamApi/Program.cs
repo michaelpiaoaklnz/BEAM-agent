@@ -43,6 +43,7 @@ builder.Services.AddScoped<ProductDeletionService>();
 builder.Services.AddScoped<TicketAutoCloseService>();
 builder.Services.AddScoped<PurchaseApprovalService>();
 builder.Services.AddScoped<ProfileAuditService>();
+builder.Services.AddScoped<LoginAuditService>();
 
 
 var app = builder.Build();
