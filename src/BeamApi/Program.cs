@@ -40,7 +40,7 @@ builder.Services.AddScoped<PasswordResetService>();
 builder.Services.AddScoped<PaymentCallbacksService>();
 builder.Services.AddScoped<EmployeeTerminationService>();
 builder.Services.AddScoped<ProductDeletionService>();
-
+builder.Services.AddScoped<TicketAutoCloseService>();
 
 
 
