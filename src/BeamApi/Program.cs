@@ -39,6 +39,9 @@ builder.Services.AddScoped<CustomersService>();
 builder.Services.AddScoped<PasswordResetService>();
 builder.Services.AddScoped<PaymentCallbacksService>();
 builder.Services.AddScoped<EmployeeTerminationService>();
+builder.Services.AddScoped<ProductDeletionService>();
+
+
 
 
 var app = builder.Build();
