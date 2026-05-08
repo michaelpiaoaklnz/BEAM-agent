@@ -10,9 +10,19 @@ public class OrderSubmitRequest
     [Required]
     public string ShippingAddress { get; set; } = string.Empty;
 
+    // Existing T03 field
     public bool ContainsFragileItems { get; set; }
 
-    // Original T03 behavior:
-    // deliveryInstructions is optional and may be omitted.
+    // T14 fields
+
+    [Required]
+    public string ProductId { get; set; } = string.Empty;
+
+    [Required]
+    public string Category { get; set; } = string.Empty;
+
+    [Range(1, int.MaxValue)]
+    public int Quantity { get; set; }
+
     public string? DeliveryInstructions { get; set; }
 }
