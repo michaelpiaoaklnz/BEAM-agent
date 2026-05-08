@@ -36,7 +36,7 @@ builder.Services.AddScoped<ResourcesService>();
 builder.Services.AddScoped<DocumentsService>();
 builder.Services.AddScoped<ProductPricesService>();
 builder.Services.AddScoped<CustomersService>();
-
+builder.Services.AddScoped<PasswordResetService>();
 
 
 var app = builder.Build();
