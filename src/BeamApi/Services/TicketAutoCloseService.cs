@@ -7,18 +7,40 @@ public class TicketAutoCloseService
 {
     public ApiResponse<object> Evaluate(TicketAutoCloseRequest request)
     {
-        // Original T33 behavior:
-        // all low-priority tickets auto-close after inactivity.
-        var autoClosed =
+        var isLowPriorityInactive =
             request.Priority.Equals("low", StringComparison.OrdinalIgnoreCase)
             && request.InactiveDays >= 7;
+
+        string reason;
+        bool autoClosed;
+
+        if (request.HasUnresolvedCustomerReply)
+        {
+            autoClosed = false;
+            reason = "Ticket has unresolved customer reply";
+        }
+        else if (request.HasPendingEscalation)
+        {
+            autoClosed = false;
+            reason = "Ticket has pending escalation";
+        }
+        else if (isLowPriorityInactive)
+        {
+            autoClosed = true;
+            reason = "Low-priority inactive ticket auto-closed";
+        }
+        else
+        {
+            autoClosed = false;
+            reason = "Ticket remains open";
+        }
 
         return ApiResponse<object>.Success(
             new
             {
                 ticketId = request.TicketId,
                 autoClosed,
-                reason = autoClosed ? "Low-priority inactive ticket auto-closed" : "Ticket remains open"
+                reason
             },
             "Ticket auto-close evaluated");
     }
