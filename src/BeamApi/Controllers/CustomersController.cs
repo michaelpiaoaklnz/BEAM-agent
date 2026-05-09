@@ -29,7 +29,7 @@ public class CustomersController : ControllerBase
             return Ok(ApiResponse<object>.Failure(errors, "Validation failed"));
         }
 
-        var result = _customersService.Delete(request.CustomerId);
+        var result = _customersService.Delete(request);
         return Ok(result);
     }
 }

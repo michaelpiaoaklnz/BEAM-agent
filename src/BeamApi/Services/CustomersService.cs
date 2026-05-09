@@ -1,19 +1,38 @@
+using BeamApi.Models.Requests;
 using BeamApi.Models.Responses;
 
 namespace BeamApi.Services;
 
 public class CustomersService
 {
-    public ApiResponse<object> Delete(string customerId)
+    public ApiResponse<object> Delete(CustomerDeleteRequest request)
     {
-        // Simulate customer deletion
-        // In a real-world scenario, this would involve database operations
+        if (request.HasActiveDisputes)
+        {
+            var blocked = new
+            {
+                customerId = request.CustomerId,
+                profileDeleted = false,
+                relatedOrdersArchived = false,
+                futureInvoicesBlocked = false,
+                deletionBlocked = true
+            };
+
+            return new ApiResponse<object>
+            {
+                Succeeded = false,
+                Message = "Customer deletion blocked by active disputes",
+                Errors = new List<string> { "Customer deletion is blocked by active disputes." },
+                Data = blocked
+            };
+        }
+
         var result = new
         {
-            customerId,
+            customerId = request.CustomerId,
             profileDeleted = true,
-            relatedOrdersArchived = false,
-            futureInvoicesBlocked = false,
+            relatedOrdersArchived = request.HasRelatedOrders,
+            futureInvoicesBlocked = true,
             deletionBlocked = false
         };
 
