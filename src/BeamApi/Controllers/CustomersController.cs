@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace BeamApi.Controllers;
 
 [ApiController]
-[Route("api/customers")]
+[Route("api/[controller]")]
 public class CustomersController : ControllerBase
 {
     private readonly CustomersService _customersService;
@@ -29,7 +29,7 @@ public class CustomersController : ControllerBase
             return Ok(ApiResponse<object>.Failure(errors, "Validation failed"));
         }
 
-        var result = _customersService.Delete(request.CustomerId);
+        var result = _customersService.Delete(request.CustomerId, request.HasRelatedOrders, request.HasActiveDisputes);
         return Ok(result);
     }
 }
