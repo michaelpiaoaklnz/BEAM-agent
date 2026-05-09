@@ -21,7 +21,6 @@ public class OrderSubmitRequest
     [Required]
     public string Category { get; set; } = string.Empty;
 
-    [Range(1, int.MaxValue)]
     public int Quantity { get; set; }
 
     public string? DeliveryInstructions { get; set; }
