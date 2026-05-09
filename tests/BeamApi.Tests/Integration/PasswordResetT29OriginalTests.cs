@@ -27,9 +27,16 @@ public class PasswordResetT29OriginalTests : IClassFixture<TestWebApplicationFac
 
         response.StatusCode.Should().Be(HttpStatusCode.OK);
 
-        var body = await response.Content.ReadAsStringAsync();
-        body.Should().Contain("reset-token-");
-        body.Should().Contain("\"activeTokenCount\":3");
-        body.Should().Contain("\"oldTokensInvalidated\":false");
+        var body = await response.Content.ReadFromJsonAsync<ApiResponse<object>>();
+        body.Should().NotBeNull();
+        body.Succeeded.Should().BeTrue();
+        body.Message.Should().Be("Password reset token created");
+
+        var data = body.Data;
+        data.Should().NotBeNull();
+        data["email"].Should().Be(payload.email);
+        data["newTokenId"].Should().StartWith("reset-token-");
+        data["activeTokenCount"].Should().Be(payload.existingActiveTokens + 1);
+        data["oldTokensInvalidated"].Should().BeFalse();
     }
 }
