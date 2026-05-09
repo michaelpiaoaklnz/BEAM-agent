@@ -13,13 +13,17 @@ public class PasswordResetService
         // Generate a new unique token ID
         var newTokenId = $"reset-token-{Guid.NewGuid():N}";
 
+        // Latest-token-only behavior: any previously active tokens for this
+        // user are invalidated, leaving exactly one active token.
+        var hadPriorActiveTokens = request.ExistingActiveTokens > 0;
+
         return ApiResponse<object>.Success(
             new
             {
                 email = request.Email,
                 newTokenId,
-                activeTokenCount = request.ExistingActiveTokens + 1,
-                oldTokensInvalidated = false
+                activeTokenCount = 1,
+                oldTokensInvalidated = hadPriorActiveTokens
             },
             "Password reset token created");
     }
