@@ -20,9 +20,10 @@ public class SearchController : ControllerBase
     public ActionResult<ApiResponse<List<string>>> Search(
         [FromBody] SearchRequest? request)
     {
-        if (request == null)
+        if (request == null || string.IsNullOrWhiteSpace(request.Keyword))
         {
-            request = new SearchRequest();
+            var errors = new List<string> { "keyword is required." };
+            return BadRequest(ApiResponse<List<string>>.Failure(errors, "keyword is required."));
         }
 
         var result = _searchService.Search(request);
