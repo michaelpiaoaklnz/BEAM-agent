@@ -23,6 +23,11 @@ public class TicketStateService
         {
             nextStatus = "Closed";
         }
+        else if (request.CurrentStatus.Equals("Closed", StringComparison.OrdinalIgnoreCase)
+                 && request.Action.Equals("reopen", StringComparison.OrdinalIgnoreCase))
+        {
+            nextStatus = request.HoursSinceClosed <= 48 ? "Open" : "Closed";
+        }
 
         return ApiResponse<object>.Success(
             new
