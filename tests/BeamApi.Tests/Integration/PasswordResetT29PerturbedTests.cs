@@ -32,4 +32,4 @@ public class PasswordResetT29PerturbedTests : IClassFixture<TestWebApplicationFa
         body.Should().Contain("\"activeTokenCount\":1");
         body.Should().Contain("\"oldTokensInvalidated\":true");
     }
-}  
+}
