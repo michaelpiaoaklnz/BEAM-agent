@@ -1,25 +1,14 @@
 using BeamApi.Models.Requests;
-using BeamApi.Models.Responses;
 using System;
 
 namespace BeamApi.Services;
 
 public class ResourcesService
 {
-    public ApiResponse<object> Create(ResourceCreateRequest request)
+    public (string Id, string Location) Create(ResourceCreateRequest request)
     {
         var resourceId = $"resource-{Guid.NewGuid():N}";
-
-        // Original T25 behavior:
-        // successful creation returns the full entity object.
-        return ApiResponse<object>.Success(
-            new
-            {
-                id = resourceId,
-                name = request.Name,
-                type = request.Type,
-                created = true
-            },
-            "Resource created");
+        var location = $"/api/resources/{resourceId}";
+        return (resourceId, location);
     }
 }

@@ -17,8 +17,7 @@ public class ResourcesController : ControllerBase
     }
 
     [HttpPost("create")]
-    public ActionResult<ApiResponse<object>> Create(
-        [FromBody] ResourceCreateRequest request)
+    public IActionResult Create([FromBody] ResourceCreateRequest request)
     {
         if (!ModelState.IsValid)
         {
@@ -34,7 +33,7 @@ public class ResourcesController : ControllerBase
             return Ok(ApiResponse<object>.Failure(errors, "Validation failed"));
         }
 
-        var result = _resourcesService.Create(request);
-        return Ok(result);
+        var (id, location) = _resourcesService.Create(request);
+        return Created(location, new { id, location });
     }
 }
