@@ -10,10 +10,10 @@ public class SearchService
         // Original T17 behavior:
         // empty keyword returns all records.
 
-        // Original T18 behavior:
-        // missing pagination parameters use a fixed default page size.
+        // T18 perturbed behavior:
+        // missing pageSize uses a role-specific default; unknown/missing roles fall back to 20.
         var page = request.Page ?? 1;
-        var pageSize = request.PageSize ?? 20;
+        var pageSize = request.PageSize ?? GetDefaultPageSizeForRole(request.UserRole);
 
         var allRecords = Enumerable
             .Range(1, 100)
@@ -28,5 +28,15 @@ public class SearchService
         return ApiResponse<List<string>>.Success(
             results,
             $"Search completed with page={page}, pageSize={pageSize}");
+    }
+
+    private static int GetDefaultPageSizeForRole(string? userRole)
+    {
+        return userRole?.Trim().ToLowerInvariant() switch
+        {
+            "admin" => 100,
+            "manager" => 50,
+            _ => 20,
+        };
     }
 }
