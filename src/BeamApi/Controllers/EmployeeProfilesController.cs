@@ -18,7 +18,7 @@ public class EmployeeProfilesController : ControllerBase
     }
 
     [HttpPost("update")]
-    public ActionResult<ApiResponse<object>> Update(
+    public IActionResult Update(
         [FromBody] EmployeeProfileUpdateRequest request)
     {
         if (!ModelState.IsValid)
@@ -32,13 +32,20 @@ public class EmployeeProfilesController : ControllerBase
                         : e.ErrorMessage)
                 .ToList();
 
-            return Ok(ApiResponse<object>.Failure(
+            return BadRequest(ApiResponse<object>.Failure(
                 errors,
                 "Validation failed"));
         }
 
         var result = _employeeProfilesService.Update(request);
 
-        return Ok(result);
+        if (result.Succeeded)
+        {
+            return Ok(result);
+        }
+        else
+        {
+            return StatusCode((int)HttpStatusCode.Forbidden, result);
+        }
     }
 }
