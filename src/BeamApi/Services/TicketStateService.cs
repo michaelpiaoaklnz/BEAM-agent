@@ -7,10 +7,6 @@ public class TicketStateService
 {
     public ApiResponse<object> ApplyTransition(TicketStateRequest request)
     {
-        // Original T22 behavior:
-        // support ticket moves Open -> Resolved -> Closed.
-        // Reopening behavior is not supported in the original requirement.
-
         var nextStatus = request.CurrentStatus;
 
         if (request.CurrentStatus.Equals("Open", StringComparison.OrdinalIgnoreCase)
@@ -22,6 +18,12 @@ public class TicketStateService
                  && request.Action.Equals("close", StringComparison.OrdinalIgnoreCase))
         {
             nextStatus = "Closed";
+        }
+        else if (request.CurrentStatus.Equals("Closed", StringComparison.OrdinalIgnoreCase)
+                 && request.Action.Equals("reopen", StringComparison.OrdinalIgnoreCase)
+                 && request.HoursSinceClosed <= 48)
+        {
+            nextStatus = "Open";
         }
 
         return ApiResponse<object>.Success(
