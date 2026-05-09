@@ -9,4 +9,6 @@ public class LoginAuditRequest
     public string IpAddress { get; set; } = string.Empty;
 
     public string DeviceFingerprint { get; set; } = string.Empty;
+
+    public bool LockoutDecision { get; set; }
 }
