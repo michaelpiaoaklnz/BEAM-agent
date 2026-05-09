@@ -7,6 +7,19 @@ public class TicketAutoCloseService
 {
     public ApiResponse<object> Evaluate(TicketAutoCloseRequest request)
     {
+        // Check for exceptions
+        if (request.HasUnresolvedCustomerReply || request.HasPendingEscalation)
+        {
+            return ApiResponse<object>.Success(
+                new
+                {
+                    ticketId = request.TicketId,
+                    autoClosed = false,
+                    reason = "Ticket has unresolved customer reply or pending escalation"
+                },
+                "Ticket auto-close evaluated");
+        }
+
         // Original T33 behavior:
         // all low-priority tickets auto-close after inactivity.
         var autoClosed =
