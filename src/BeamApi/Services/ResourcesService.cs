@@ -9,16 +9,15 @@ public class ResourcesService
     public ApiResponse<object> Create(ResourceCreateRequest request)
     {
         var resourceId = $"resource-{Guid.NewGuid():N}";
+        var location = $"/api/resources/{resourceId}";
 
-        // Original T25 behavior:
-        // successful creation returns the full entity object.
+        // Revised T25 behavior:
+        // successful creation returns only the resource ID and location.
         return ApiResponse<object>.Success(
             new
             {
                 id = resourceId,
-                name = request.Name,
-                type = request.Type,
-                created = true
+                location = location
             },
             "Resource created");
     }

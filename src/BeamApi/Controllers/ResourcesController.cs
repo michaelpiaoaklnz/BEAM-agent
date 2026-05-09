@@ -31,10 +31,16 @@ public class ResourcesController : ControllerBase
                         : e.ErrorMessage)
                 .ToList();
 
-            return Ok(ApiResponse<object>.Failure(errors, "Validation failed"));
+            return BadRequest(ApiResponse<object>.Failure(errors, "Validation failed"));
         }
 
         var result = _resourcesService.Create(request);
-        return Ok(result);
+        if (!result.Succeeded)
+        {
+            return StatusCode((int)HttpStatusCode.InternalServerError, result);
+        }
+
+        var location = $"/api/resources/{result.Data.id}";
+        return Created(location, result.Data);
     }
 }

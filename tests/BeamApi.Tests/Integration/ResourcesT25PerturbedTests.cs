@@ -29,12 +29,18 @@ public class ResourcesT25PerturbedTests
 
         response.StatusCode.Should().Be(HttpStatusCode.Created);
 
-        var body = await response.Content.ReadAsStringAsync();
+        var body = await response.Content.ReadFromJsonAsync<ApiResponse<object>>();
 
-        body.Should().Contain("\"id\"");
-        body.Should().Contain("\"location\"");
-        body.Should().NotContain("\"name\"");
-        body.Should().NotContain("\"type\"");
-        body.Should().NotContain("\"created\"");
+        body.Should().NotBeNull();
+        body.Succeeded.Should().BeTrue();
+        body.Message.Should().Be("Resource created");
+        body.Data.Should().NotBeNull();
+        body.Data.Should().ContainKey("id");
+        body.Data.Should().ContainKey("location");
+        body.Data["id"].Should().BeOfType<string>();
+        body.Data["location"].Should().BeOfType<string>();
+        body.Data.Should().NotContainKey("name");
+        body.Data.Should().NotContainKey("type");
+        body.Data.Should().NotContainKey("created");
     }
 }
