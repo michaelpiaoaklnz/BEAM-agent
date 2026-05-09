@@ -31,8 +31,19 @@ public class PaymentCallbacksT30PerturbedTests : IClassFixture<TestWebApplicatio
 
         var body = await response.Content.ReadAsStringAsync();
         body.Should().Contain("\"paymentStatus\":\"Paid\"");
-        body.Should().Contain("\"ledgerEntryCount\":2");
-        body.Should().Contain("\"notificationCount\":2");
+        body.Should().Contain("\"ledgerEntryCount\":3");
+        body.Should().Contain("\"notificationCount\":3");
+        body.Should().Contain("\"duplicateIgnored\":false");
+
+        // Second call with the same transaction reference
+        response = await _client.PostAsJsonAsync("/api/payment-callbacks/process", payload);
+
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+
+        body = await response.Content.ReadAsStringAsync();
+        body.Should().Contain("\"paymentStatus\":\"Paid\"");
+        body.Should().Contain("\"ledgerEntryCount\":3");
+        body.Should().Contain("\"notificationCount\":3");
         body.Should().Contain("\"duplicateIgnored\":true");
     }
 }
