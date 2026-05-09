@@ -5,19 +5,19 @@ namespace BeamApi.Services;
 
 public class PurchaseApprovalService
 {
+    private const decimal HighValueThreshold = 5000m;
+
     public ApiResponse<object> Evaluate(PurchaseApprovalRequest request)
     {
-        // Original T34 behavior:
-        // purchase orders are approved after manager review.
-
-        var approved = request.ManagerApproved;
+        bool financeApprovalRequired = request.Amount > HighValueThreshold;
+        bool approved = request.ManagerApproved && (!financeApprovalRequired || request.FinanceApproved);
 
         return ApiResponse<object>.Success(
             new
             {
                 purchaseOrderId = request.PurchaseOrderId,
                 approved,
-                financeApprovalRequired = false
+                financeApprovalRequired
             },
             "Purchase approval evaluated");
     }
