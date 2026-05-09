@@ -5,12 +5,16 @@ namespace BeamApi.Services;
 
 public class DiscountsService
 {
+    private static readonly HashSet<string> RestrictedCategories =
+        new(StringComparer.OrdinalIgnoreCase)
+        {
+            "alcohol",
+            "tobacco"
+        };
+
     public ApiResponse<object> CalculateDiscount(DiscountRequest request)
     {
-        // Original T19 behavior:
-        // discount applies when order total exceeds NZD 1000.
-
-        var discountApplied = request.OrderTotal > 1000m;
+        var discountApplied = IsEligible(request);
 
         return ApiResponse<object>.Success(
             new
@@ -19,5 +23,22 @@ public class DiscountsService
                 orderTotal = request.OrderTotal
             },
             "Discount evaluation completed");
+    }
+
+    private static bool IsEligible(DiscountRequest request)
+    {
+        if (RestrictedCategories.Contains(request.ProductCategory ?? string.Empty))
+        {
+            return false;
+        }
+
+        var tier = (request.CustomerTier ?? string.Empty).Trim().ToLowerInvariant();
+
+        return tier switch
+        {
+            "platinum" => request.OrderTotal > 500m,
+            "gold" => request.OrderTotal > 800m && request.PreviousOrders >= 5,
+            _ => request.OrderTotal > 1200m
+        };
     }
 }
