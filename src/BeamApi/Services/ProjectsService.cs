@@ -7,15 +7,37 @@ public class ProjectsService
 {
     public ApiResponse<object> View(ProjectAccessRequest request)
     {
-        // Original T24 behavior:
-        // any authenticated user can view project details.
-
-        return ApiResponse<object>.Success(
-            new
+        // Check if the project is confidential
+        if (request.IsConfidentialProject)
+        {
+            // Check if the user is a project member or an administrator
+            if (request.IsProjectMember || request.UserRole == "admin")
             {
-                accessGranted = true,
-                projectId = request.ProjectId
-            },
-            "Project details retrieved");
+                return ApiResponse<object>.Success(
+                    new
+                    {
+                        accessGranted = true,
+                        projectId = request.ProjectId
+                    },
+                    "Project details retrieved");
+            }
+            else
+            {
+                return ApiResponse<object>.Failure(
+                    new List<string> { "Access denied" },
+                    "Authorization failed");
+            }
+        }
+        else
+        {
+            // Non-confidential projects remain accessible to authenticated users
+            return ApiResponse<object>.Success(
+                new
+                {
+                    accessGranted = true,
+                    projectId = request.ProjectId
+                },
+                "Project details retrieved");
+        }
     }
 }
