@@ -17,7 +17,7 @@ public class DocumentsController : ControllerBase
     }
 
     [HttpPost("lookup")]
-    public ActionResult<ApiResponse<object>> Lookup(
+    public IActionResult Lookup(
         [FromBody] DocumentLookupRequest request)
     {
         if (!ModelState.IsValid)
@@ -38,6 +38,29 @@ public class DocumentsController : ControllerBase
 
         var result = _documentsService.Lookup(request);
 
-        return Ok(result);
+        if (!result.Found)
+        {
+            var traceId = string.IsNullOrWhiteSpace(HttpContext.TraceIdentifier)
+                ? Guid.NewGuid().ToString()
+                : HttpContext.TraceIdentifier;
+
+            var notFoundResponse = new ApiResponse<object>
+            {
+                Succeeded = false,
+                Message = "Document not found",
+                Errors = new List<string> { "Document not found." },
+                Data = new
+                {
+                    errorCode = "DOCUMENT_NOT_FOUND",
+                    traceId
+                }
+            };
+
+            return NotFound(notFoundResponse);
+        }
+
+        return Ok(ApiResponse<object>.Success(
+            result.Document,
+            "Document found"));
     }
 }

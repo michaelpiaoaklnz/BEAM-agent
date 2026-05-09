@@ -1,17 +1,18 @@
 using BeamApi.Models.Requests;
-using BeamApi.Models.Responses;
 
 namespace BeamApi.Services;
 
 public class DocumentsService
 {
-    public ApiResponse<object> Lookup(DocumentLookupRequest request)
+    public DocumentLookupResult Lookup(DocumentLookupRequest request)
     {
-        // Original T26 behavior:
-        // not-found requests return generic error text.
-
-        return ApiResponse<object>.Failure(
-            new List<string> { "Document not found." },
-            "Generic error");
+        // No documents are currently stored; every lookup is treated as not-found.
+        return new DocumentLookupResult { Found = false };
     }
+}
+
+public class DocumentLookupResult
+{
+    public bool Found { get; set; }
+    public object? Document { get; set; }
 }
