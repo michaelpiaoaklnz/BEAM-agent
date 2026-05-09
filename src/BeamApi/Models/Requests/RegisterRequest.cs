@@ -7,6 +7,7 @@ public class RegisterRequest
     [Required]
     public string FirstName { get; set; } = string.Empty;
 
+    [RegularExpression(@"^\D*$", ErrorMessage = "middleName must not contain numeric characters.")]
     public string? MiddleName { get; set; }
 
     [Required]
