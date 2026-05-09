@@ -1,58 +1,37 @@
 using BeamApi.Services;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services
-    .AddControllers()
-    .ConfigureApiBehaviorOptions(options =>
-    {
-        options.SuppressModelStateInvalidFilter = true;
-    });
-
+// Add services to the container.
+builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "BeamApi", Version = "v1" });
+});
 
-builder.Services.AddSingleton<AccountsService>();
-builder.Services.AddScoped<SuppliersService>();
+// Register custom services
 builder.Services.AddScoped<OrdersService>();
-builder.Services.AddScoped<ExpensesService>();
-builder.Services.AddScoped<OrderWorkflowService>();
-builder.Services.AddScoped<RefundService>();
-builder.Services.AddScoped<ContactService>();
-builder.Services.AddScoped<OrderCancellationService>();
-builder.Services.AddScoped<CaseService>();
-builder.Services.AddScoped<UserDeactivationService>();
-builder.Services.AddScoped<TicketClosureService>();
 builder.Services.AddScoped<AuditService>();
-builder.Services.AddScoped<SearchService>();
-builder.Services.AddScoped<DiscountsService>();
-builder.Services.AddScoped<LeaveService>();
 builder.Services.AddScoped<InvoicesService>();
-builder.Services.AddScoped<TicketStateService>();
-builder.Services.AddScoped<EmployeeProfilesService>();
-builder.Services.AddScoped<ProjectsService>();
-builder.Services.AddScoped<ResourcesService>();
-builder.Services.AddScoped<DocumentsService>();
-builder.Services.AddScoped<ProductPricesService>();
 builder.Services.AddScoped<CustomersService>();
-
-
 
 var app = builder.Build();
 
+// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
-// app.UseHttpsRedirection();
+app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
 app.MapControllers();
 
 app.Run();
-
-public partial class Program { }

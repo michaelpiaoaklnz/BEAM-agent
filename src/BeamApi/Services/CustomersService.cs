@@ -1,23 +1,22 @@
-using BeamApi.Models.Requests;
 using BeamApi.Models.Responses;
 
 namespace BeamApi.Services;
 
 public class CustomersService
 {
-    public ApiResponse<object> Delete(CustomerDeleteRequest request)
+    public ApiResponse<object> Delete(string customerId)
     {
-        // Original T28 behavior:
-        // deleting a customer removes customer profile only.
-        return ApiResponse<object>.Success(
-            new
-            {
-                customerId = request.CustomerId,
-                profileDeleted = true,
-                relatedOrdersArchived = false,
-                futureInvoicesBlocked = false,
-                deletionBlocked = false
-            },
-            "Customer deleted");
+        // Simulate customer deletion
+        // In a real-world scenario, this would involve database operations
+        var result = new
+        {
+            customerId,
+            profileDeleted = true,
+            relatedOrdersArchived = false,
+            futureInvoicesBlocked = false,
+            deletionBlocked = false
+        };
+
+        return ApiResponse<object>.Success(result, "Customer deleted successfully");
     }
 }
