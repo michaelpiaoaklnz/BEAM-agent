@@ -21,4 +21,4 @@ public class LoginAuditService
             },
             "Failed login recorded");
     }
-}  
+}
