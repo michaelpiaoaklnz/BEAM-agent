@@ -34,6 +34,11 @@ public class TicketStateController : ControllerBase
             return Ok(ApiResponse<object>.Failure(errors, "Validation failed"));
         }
 
+        if (string.IsNullOrEmpty(request.CurrentStatus) || string.IsNullOrEmpty(request.Action))
+        {
+            return Ok(ApiResponse<object>.Failure(new List<string> { "CurrentStatus and Action cannot be empty." }, "Invalid input."));
+        }
+
         var result = _ticketStateService.ApplyTransition(request);
         return Ok(result);
     }
