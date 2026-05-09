@@ -38,6 +38,11 @@ public class DocumentsController : ControllerBase
 
         var result = _documentsService.Lookup(request);
 
+        if (!result.Succeeded && result.Metadata != null)
+        {
+            return NotFound(result);
+        }
+
         return Ok(result);
     }
 }

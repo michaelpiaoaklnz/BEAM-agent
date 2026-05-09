@@ -31,9 +31,14 @@ public class DocumentsT26PerturbedTests
 
         response.StatusCode.Should().Be(HttpStatusCode.NotFound);
 
-        var body = await response.Content.ReadAsStringAsync();
+        var body = await response.Content.ReadFromJsonAsync<ApiResponse<object>>();
 
-        body.Should().Contain("errorCode");
-        body.Should().Contain("traceId");
+        body.Should().NotBeNull();
+        body.Succeeded.Should().BeFalse();
+        body.Message.Should().Be("Not Found");
+        body.Errors.Should().Contain("Document not found.");
+        body.Metadata.Should().NotBeNull();
+        body.Metadata.Should().HaveProperty("errorCode").WithCastValue<string>().Be("NOT_FOUND");
+        body.Metadata.Should().HaveProperty("traceId").WithCastValue<string>().Should().NotBeNullOrEmpty();
     }
 }
