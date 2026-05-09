@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("BeamApi")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3d877ea8c7b758a75ac0c3dfe32047f2c7f7fb04")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4ee90c21ca29c54cd92a3fbffb9228079f01d2db")]
 [assembly: System.Reflection.AssemblyProductAttribute("BeamApi")]
 [assembly: System.Reflection.AssemblyTitleAttribute("BeamApi")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
